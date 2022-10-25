@@ -14,6 +14,11 @@ const SearchContainer = styled.div`
     height: fit-content;
 `;
 
+const Warning = styled.span`
+    color: red;
+    display: ${hidden => hidden ? "none" : "initial"};
+`;
+
 const TagContainer = styled.ul`
     display: flex;
     flex-wrap: wrap;
@@ -56,22 +61,33 @@ const Input = styled.input`
 
 const Search = () => {
   const handleSearch = () => {};
-	const [tags, setTags] = React.useState([]);
+	const [tags, setTags] = React.useState([]); // list of tags shown in input bar
 
+  // Adding new tag to input bar
 	const addTags = event => {
-		if (event.target.value !== "") {
-      console.log(event.target.value);
-			setTags([...tags, event.target.value]);
-			event.target.value = "";
+    const input = event.target.value;
+    
+    const lower = tags.map(element => {
+      return element.toLowerCase();
+    });
+
+		if (input !== "") {
+      if (lower.indexOf(input.toLowerCase()) === -1){
+        setTags([...tags, input]);
+        event.target.value = "";
+      }
+
 		}
 	};
 
+  // Removing a tag from the input bar
   const removeTags = indexToRemove => {
 		setTags([...tags.filter((_, index) => index !== indexToRemove)]);
 	};
 
   return (
     <SearchContainer>
+        <Warning></Warning>
         <TagContainer>
           {
             tags.map((tag, index) => (
@@ -85,7 +101,6 @@ const Search = () => {
         <Input type="text" onKeyUp={event => event.key === "Enter" ? addTags(event) : null} placeholder="Press enter to add tags"/>
         <SearchIcon style={{color: "gray", flex: 1, cursor:"pointer"}} onClick={handleSearch()}/>
     </SearchContainer>
-
 
   )
 }
