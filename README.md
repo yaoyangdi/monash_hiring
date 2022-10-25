@@ -1,4 +1,4 @@
-# Tag Flicker
+# Tag Flickr
 
 
 
@@ -20,17 +20,26 @@ Tag creating: https://dribbble.com/shots/5026316-We-improved-tagging
 
 ### TODO 
 
-🔲 Frontend:	 Home page: Searching feature
+✅ Frontend:	 Home page: Searching feature
 
 🔲 Frontend:	 Tag creating page
 
 🔲 Frontend:	 Result display page
 
-🔲 Backend:	  Upload images with tags API endpoint  	  			  POST /tags
+🔲 Backend:	  Upload images with tags API endpoint - POST /tags
 
-🔲 Backend:	  Upload images with tags API endpoint  	  			  POST /imgs
+🔲 Backend:	  Upload images with tags API endpoint - POST /imgs
 
-🔲 Backend:	  query all images API endpoint						  		  GET  /imgs
+🔲 Backend:	  query all images API endpoint - GET /imgs
 
-🔲 Backend:	  query images by tag API endpoint					GET  /imgs/:tagName
+🔲 Backend:	  query images by tag API endpoint - GET /imgs/:tagName
 
+
+
+{
+
+​	url: "",
+
+​	tags: []
+
+}
