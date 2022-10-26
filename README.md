@@ -30,7 +30,7 @@ Tag creating: https://dribbble.com/shots/5026316-We-improved-tagging
 
 🔲 Backend:	  Upload images with tags API endpoint - POST /tags
 
-🔲 Backend:	  Upload images with tags API endpoint - POST /imgs
+✅ Backend:	  Upload images with tags API endpoint - POST /imgs
 
 🔲 Backend:	  query all images API endpoint - GET /imgs
 
