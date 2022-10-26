@@ -117,9 +117,8 @@ const NewTag = () => {
 
     const [tags, setTags] = useState([]); // list of tags shown in input bar
 
-    const fileInputRef = useRef();
-
-    let empty = true;
+    const TitleRef = useRef();
+    const ImageRef = useRef();
 
     const [values, setValues] = useState({   // use JSON object instead of using useState hook multiple times
         title: "",
@@ -156,19 +155,23 @@ const NewTag = () => {
         }
     }
 
-    
+    const ADDIAMGE_API = "http://localhost:8080/img";
 
     // Handle submit
     const handleSubmit = (e) =>{
-        // setValues({...values, ['tags']: tags !== null && tags});
-        
+
         e.preventDefault();  // prevent refresh the page by default
-        values.tags = tags;
-        console.log(values)
+        
+ 
+        const data = new FormData(e.target);
+        data.append("tags", tags);
+        console.log(Object.fromEntries(data.entries()))
+
+        // console.log(values)
         try{
-            fetch("", {
+            fetch(ADDIAMGE_API, {
                 method: "POST",
-                body: values
+                body: data
             })
             .then(
                 response => response.json(),
@@ -213,13 +216,15 @@ const NewTag = () => {
             <Right>
                 <Wrapper>
                     <Title>STRENGTHEN THE COMMUNITY<br></br> WITH US</Title>
-                    <Form>
-                        <FormInput name="title" type="text" placeholder="Title" label="Title" width="60%" value={values["title"]} onChange={onChange}/>
+                    <Form  onSubmit={handleSubmit}>
+                        <FormInput name="title" type="text" placeholder="Title" label="Title" width="60%" value={values["title"]} onChange={onChange} ref={TitleRef}/>
                         <FormTagInput name="tags" type="text" placeholder="Press Enter to add tags" label="Tags" width="63%" tags={tags} setTags={setTags}/>
-                        <FormInput name="image" type="file" placeholder="Display Picture" label="Display Picture" width="60%" value={values["image"]} onChange={onChange} style={{"marginLeft":"-10px"}} ref={fileInputRef}/>
+                        <FormInput name="image" type="file" placeholder="Display Picture" label="Display Picture" width="60%" value={values["image"]} onChange={onChange} style={{"marginLeft":"-10px"}} ref={ImageRef}/>
+
+                        <Button style={{"margin-right":"50%"}} type='submit'>{"Shall we?  >>"}</Button>
+
                     </Form>
 
-                    <Button onClick={handleSubmit}>{"Shall we?  >>"}</Button>
 
                 </Wrapper>
             </Right>
