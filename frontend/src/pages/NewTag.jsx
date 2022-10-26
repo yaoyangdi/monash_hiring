@@ -129,6 +129,8 @@ const NewTag = () => {
 
     const [image, setImage] = useState();
     const [preview, setPreview] = useState();
+
+    
     useEffect(()=> {
         if (image) {
             const reader = new FileReader();

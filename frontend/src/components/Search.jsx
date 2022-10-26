@@ -28,7 +28,7 @@ const TagContainer = styled.ul`
 
 const Tag = styled.li`
     width: auto;
-    height: 32px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,7 +37,7 @@ const Tag = styled.li`
     font-size: 14px;
     list-style: none;
     border-radius: 6px;
-    margin: 0 8px 8px 0;
+    margin: 0 4px 8px 4px;
     background: #0052cc;
 `;
 
@@ -59,9 +59,8 @@ const Input = styled.input`
 		}
 `;
 
-const Search = () => {
-  const handleSearch = () => {};
-	const [tags, setTags] = React.useState([]); // list of tags shown in input bar
+const Search = (props) => {
+  const {onSearch, tags, setTags} = props;
 
   // Adding new tag to input bar
 	const addTags = event => {
@@ -99,7 +98,7 @@ const Search = () => {
           }
         </TagContainer>
         <Input type="text" onKeyUp={event => event.key === "Enter" ? addTags(event) : null} placeholder="Press enter to add tags"/>
-        <SearchIcon style={{color: "gray", flex: 1, cursor:"pointer"}} onClick={handleSearch()}/>
+        <SearchIcon style={{color: "gray", flex: 1, cursor:"pointer"}} onClick={()=>onSearch()}/>
     </SearchContainer>
 
   )

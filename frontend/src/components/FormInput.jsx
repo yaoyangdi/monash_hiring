@@ -21,7 +21,6 @@ const Input = styled.input`
 		}
 `;
 
-
 const FormInput = (props) => {
   const {label, errorMessage, onChange, width, ...inputProps} = props;
   return (

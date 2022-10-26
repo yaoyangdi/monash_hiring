@@ -24,7 +24,9 @@ Tag creating: https://dribbble.com/shots/5026316-We-improved-tagging
 
 ✅ Frontend:	 Tag creating page
 
-🔲 Frontend:	 Result display page
+✅ Frontend:	 Result display page
+
+✅ Frontend:	 Deployment of frontend server
 
 🔲 Backend:	  Upload images with tags API endpoint - POST /tags
 
