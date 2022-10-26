@@ -1,4 +1,4 @@
-package com.example.tagflickr.service;
+package com.example.tagflickr.service.image;
 
 import com.example.tagflickr.model.Image;
 

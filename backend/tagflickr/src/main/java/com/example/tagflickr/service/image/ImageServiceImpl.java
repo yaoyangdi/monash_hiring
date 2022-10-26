@@ -1,14 +1,13 @@
-package com.example.tagflickr.service;
+package com.example.tagflickr.service.image;
 
 import com.example.tagflickr.model.Image;
 import com.example.tagflickr.repository.ImageRepository;
+import com.example.tagflickr.service.image.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
-public class ImageServiceImpl implements ImageService{
+public class ImageServiceImpl implements ImageService {
     @Autowired
     ImageRepository imageRepository;
 

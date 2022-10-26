@@ -1,6 +1,4 @@
-package com.example.flashsales.exception;
-
-import org.springframework.web.bind.annotation.ControllerAdvice;
+package com.example.tagflickr.exception;
 
 public class CustomException extends IllegalArgumentException {
     public CustomException(String msg) {

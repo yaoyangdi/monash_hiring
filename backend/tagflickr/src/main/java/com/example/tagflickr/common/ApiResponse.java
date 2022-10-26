@@ -1,8 +1,7 @@
-package com.example.flashsales.common;
+package com.example.tagflickr.common;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
