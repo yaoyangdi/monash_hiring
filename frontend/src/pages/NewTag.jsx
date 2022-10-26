@@ -141,9 +141,22 @@ const NewTag = () => {
         else{
             setPreview(null);
         }
+
+        const keyDownHandler = event => {      
+            if (event.key === 'Enter') {
+              event.preventDefault();
+            }
+        }
+        document.addEventListener('keydown', keyDownHandler);
+
+        return () => {
+          document.removeEventListener('keydown', keyDownHandler);
+        };    
+    
     })
 
     const onChange = (e) => {
+        e.preventDefault(); 
         setValues({...values, [e.target.name]: e.target.value})
         if((e.target.name) === 'image') {
             const file = e.target.files[0];
@@ -160,31 +173,34 @@ const NewTag = () => {
     // Handle submit
     const handleSubmit = (e) =>{
 
-        e.preventDefault();  // prevent refresh the page by default
-        
+        e.preventDefault();  // prevent refresh the page by default        
  
         const data = new FormData(e.target);
         data.append("tags", tags);
-        console.log(Object.fromEntries(data.entries()))
 
-        // console.log(values)
-        try{
-            fetch(ADDIAMGE_API, {
-                method: "POST",
-                body: data
-            })
-            .then(
-                response => response.json(),
-            )
-            .then(
-                res => res.success ? onSuccessSubmit() : null
-            )
-        }
-         catch(err) {
-            console.log(err)
+        if (e.code!=="Enter"){
+            console.log("YOU CLICKED IT");
+
+            try{
+                fetch(ADDIAMGE_API, {
+                    method: "POST",
+                    body: data
+                })
+                .then(
+                    response => response.json(),
+                )
+                .then(
+                    res => res.success ? onSuccessSubmit() : null
+                )
+            }
+             catch(err) {
+                console.log(err)
+            }
+    
         }
     }
-
+      
+    
     const onSuccessSubmit = ()  => {
         setValues({   // use JSON object instead of using useState hook multiple times
             title: "",
@@ -221,7 +237,7 @@ const NewTag = () => {
                         <FormTagInput name="tags" type="text" placeholder="Press Enter to add tags" label="Tags" width="63%" tags={tags} setTags={setTags}/>
                         <FormInput name="image" type="file" placeholder="Display Picture" label="Display Picture" width="60%" value={values["image"]} onChange={onChange} style={{"marginLeft":"-10px"}} ref={ImageRef}/>
 
-                        <Button style={{"margin-right":"50%"}} type='submit'>{"Shall we?  >>"}</Button>
+                        <Button style={{"margin-right":"50%"}} type='submit' >{"Shall we?  >>"}</Button>
 
                     </Form>
 

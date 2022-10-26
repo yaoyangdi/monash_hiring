@@ -85,7 +85,8 @@ const FormTagInput = (props) => {
                 </Tag>
               ))
           }
-          <Input  {...inputProps} onChange={onChange} onKeyUp={event => event.key === "Enter" ? addTags(event) : null}>
+          <Input  {...inputProps} onChange={onChange} onKeyUp={event => 
+            event.key  === 'Enter' ? addTags(event) : null}>
 
           </Input>
       </InputContainer>
