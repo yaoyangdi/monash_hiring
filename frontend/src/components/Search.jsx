@@ -67,12 +67,12 @@ const Search = () => {
 	const addTags = event => {
     const input = event.target.value;
     
-    const lower = tags.map(element => {
+    const lower = tags.map(element => {  // All tags in lower case for duplication testing
       return element.toLowerCase();
     });
 
 		if (input !== "") {
-      if (lower.indexOf(input.toLowerCase()) === -1){
+      if (lower.indexOf(input.toLowerCase()) === -1){  // Duplication testing
         setTags([...tags, input]);
         event.target.value = "";
       }

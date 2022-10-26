@@ -22,7 +22,7 @@ Tag creating: https://dribbble.com/shots/5026316-We-improved-tagging
 
 ✅ Frontend:	 Home page: Searching feature
 
-🔲 Frontend:	 Tag creating page
+✅ Frontend:	 Tag creating page
 
 🔲 Frontend:	 Result display page
 
@@ -34,7 +34,7 @@ Tag creating: https://dribbble.com/shots/5026316-We-improved-tagging
 
 🔲 Backend:	  query images by tag API endpoint - GET /imgs/:tagName
 
-
+🔲 API Handling on Frontend
 
 {
 
