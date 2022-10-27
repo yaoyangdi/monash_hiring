@@ -5,8 +5,10 @@ import Search from '../components/Search'
 import { useState } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
 import {GETIMAGE_API} from "../asset/API_Endpoints";
-import { useNavigate } from 'react-router-dom';
 
+/**
+ * Use styled components to supply a css class
+ */
 const Container = styled.div`
     width: 900px;
     background-color: #ffffff;
@@ -15,13 +17,11 @@ const Container = styled.div`
     flex-direction: column;
     align-content: center;
     justify-items: center;
-
 `;
+
 const Top = styled.div`
     flex: 1;
 `;
-
-
 
 const Wrapper = styled.div`
     margin-top: -50px;
@@ -145,18 +145,21 @@ const Recommend = styled.div`
 const Home = () => {
 
     /* React Hooks */
-    const [search, setSearch] = useState(false);
+    const [search, setSearch] = useState(false); // used to track if users have clicked search icon
 
     const [tags, setTags] = useState([]); // list of tags shown in search bar
 
-    const [searchedTags, setSearchedTags] = useState([]); // list of tags shown after click the search icon
+    const [searchedTags, setSearchedTags] = useState([]); // list of tags shown in the result section
 
-    const [error, SetError] = useState(null); // error message when users try to search with empty
+    const [error, SetError] = useState(null); // error message when users try to search without tags
   
-    const [imgURL, setImgURL] = useState([]); // list of url of images matched by tags
+    const [imgURL, setImgURL] = useState([]); // list of images data matched by tags fetched from API
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);  // used to track when the data has been fetched
 
+    /**
+     * Functions
+    */
     /* Function for fetching data and implementing search action */
     const handleSearch = ()=> {
       if(tags.length !== 0){
@@ -172,7 +175,8 @@ const Home = () => {
       }
     }
 
-    let tags_string = "";
+    /* Format list of tags in String format to support query parameter */
+    let tags_string = "";     // this is the string appended to the URL
     tags.forEach((element,index)=>{
       if(index!==tags.length-1){
         tags_string+=element + ",";
@@ -180,18 +184,19 @@ const Home = () => {
         tags_string += element;
       }
     })
+    /* Function for fetching data */
     const fetchData =  () => 
     {
-      console.log(GETIMAGE_API+"?name="+tags_string);
+      console.log(GETIMAGE_API+"?name="+tags_string); // We define the API URL and then fetch data
       setLoading(true);
       fetch(GETIMAGE_API+"?name="+tags_string)
       .then(response => response.json())
       .then(data => {
-        const result = []
+        const result = []         
         data.forEach((item)=> {
           result.push(item);
         })
-        setImgURL(result);
+        setImgURL(result);      // Assign the list of related image entities to imgURL
       })
       .finally(() => {
         setLoading(false);
@@ -199,9 +204,9 @@ const Home = () => {
     });
     }
 
-  // Function used when user click on the recommended tags
+  /* Function used when user click on the recommended tags */
   const handleClick = (txt) => {
-    // Function to check if the tag already exists in the search bar
+    /* Function to check if the tag already exists in the search bar */
     const isDuplicated = (arr, ele) => {
       let duplicated = false;
       arr.forEach((i)=>{
@@ -219,14 +224,15 @@ const Home = () => {
 
   }
 
-  // use for refreshing page when clicking on title
-  function refreshPage() {
+  /* Function used for refreshing page when users clicking on title */
+  const refreshPage = () => {
     window.location.reload(false);
   }
 
   return (
     <>
       <Container>
+        {/* Top part */}
         <Top>
           <Wrapper height={search?"50vh":"100vh"}>
               <Title onClick={()=>refreshPage()}>Tag Flickr</Title>
@@ -245,10 +251,13 @@ const Home = () => {
               </Recommend>
           </Wrapper>
         </Top>
+
+        {/* Bottom part */}
         <Bottom display={search?"initial":"none"}>
           <BottomWrapper >
             <BottomTitle>Result with tags: </BottomTitle>
-            
+
+            {/* Display result of tags selected */}
             <Tags>
               {
                 searchedTags.map((tag, index) => (
@@ -258,6 +267,8 @@ const Home = () => {
                 ))
               }
             </Tags>
+
+            {/* Display image selected / Display NA annotation if no any image shown */}
             <ImageWall>
               {
                 loading ?  <CircularProgress style={{"marginLeft":"390px","marginTop": "15vh"}} color="inherit"/>
@@ -274,10 +285,10 @@ const Home = () => {
             
           </BottomWrapper>
         </Bottom>
-
       </Container>
-      
-      <Footer/>
+
+      {/* Footer only shown inside Home page */}
+      <Footer/>   
     </>
 
   )

@@ -66,12 +66,12 @@ const Search = (props) => {
 	const addTags = event => {
     const input = event.target.value;
     
-    const lower = tags.map(element => {  // All tags in lower case for duplication testing
-      return element.toLowerCase();
+    const lower = tags.map(element => {  // Create a new list that contains all tags but in lower case for duplication testing reason
+      return element.toLowerCase();      
     });
 
 		if (input !== "") {
-      if (lower.indexOf(input.toLowerCase()) === -1){  // Duplication testing
+      if (lower.indexOf(input.toLowerCase()) === -1){  // Duplication testing, -1 means there not existing the element in the list
         setTags([...tags, input]);
         event.target.value = "";
       }

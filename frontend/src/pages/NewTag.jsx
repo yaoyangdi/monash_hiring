@@ -9,6 +9,9 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {ADDIAMGE_API} from "../asset/API_Endpoints";
 import CircularProgress from '@mui/material/CircularProgress';
 
+/**
+ * Use styled components to supply a css class
+ */
 const Container = styled.div`
     width: 100vw;
     height: 780px;
@@ -135,7 +138,7 @@ const NewTag = () => {
     /* React Hooks */
     const [tags, setTags] = useState([]); // list of tags shown in input bar
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false); // used for displaying spinner loader
 
     const [values, setValues] = useState({   // use JSON object instead of using useState hook multiple times
         title: "",
@@ -143,29 +146,28 @@ const NewTag = () => {
         image: undefined
     });
 
-    const [image, setImage] = useState();
+    const [image, setImage] = useState();  // Image file uploaded
     
-    const [preview, setPreview] = useState();
+    const [preview, setPreview] = useState();   // Image url used for previewing the image
 
-    const TitleRef = useRef();
-
+    const TitleRef = useRef(); // Used for persisting the form data
     const ImageRef = useRef();
     
-    const navigate  = useNavigate();
+    const navigate  = useNavigate(); // Used for redirecting routes to Home page
     
-    useEffect(()=> {
-        if (image) {
+    useEffect(()=> {                                        // Use useEffect to perform side effects in components
+        if (image) {                                        // Handle uploading image side effect
             const reader = new FileReader();
             reader.onloadend = ()=>{
                 setPreview(reader.result);
             }
             reader.readAsDataURL(image);
-        }
-        else{
+        } else {
             setPreview(null);
         }
 
-        const keyDownHandler = event => {      
+
+        const keyDownHandler = event => {                   // Handle Enter keydown event side effect
             if (event.key === 'Enter') {
               event.preventDefault();
             }
@@ -178,7 +180,7 @@ const NewTag = () => {
     
     })
 
-    const onChange = (e) => {
+    const onChange = (e) => {                               // Event listener when form data is changing OR when image is uploading
         e.preventDefault(); 
         setValues({...values, [e.target.name]: e.target.value})
         if((e.target.name) === 'image') {
@@ -191,7 +193,7 @@ const NewTag = () => {
         }
     }
 
-    // Handle submit
+    /* Function for handling form data submit */
     const handleSubmit = (e) =>{
 
         e.preventDefault();  // prevent refresh the page by default        
@@ -202,7 +204,7 @@ const NewTag = () => {
         if (e.code!=="Enter"){
             console.log("YOU CLICKED IT");
 
-            try{
+            try{                        // Send POST request to create an Image entity 
                 setLoading(true);
                 fetch(ADDIAMGE_API, {
                     method: "POST",
@@ -226,27 +228,33 @@ const NewTag = () => {
         }
     }
       
-    
+    /* Function used for clearing form data and calling success alert */
     const onSuccessSubmit = ()  => {
-        setValues({   // use JSON object instead of using useState hook multiple times
+        setValues({   // use JSON object instead of using useState hook for each variable
             title: "",
             tags: [],
             image: ""
         })
-        setTags([]);
+        setImage(null); // empty the preview image
+        setTags([]);    // empty the tags of the search bar
+
         alert('Thank you for the contribution!!!');
     }
 
   return (
     <div>
             <Container opacity={loading?"10%":"100%"}>
+                {/* Top only shows the Back button */}
                 <Top>
                     <Back onClick={() => navigate("/")}>
                         <ArrowBackIosNewIcon style={{"fontSize": "19px", "marginRight": "9px"}}/>
                         Back
                     </Back>
                 </Top>
+
+                {/* Bottom (main body) */}
                 <Bottom>
+                    {/* Left for previewing image */}
                     <Left>
                         <ImageContainer>
                             {
@@ -256,6 +264,8 @@ const NewTag = () => {
                             
                         </ImageContainer>
                     </Left>
+
+                    {/* Right for input form data */}
                     <Right>
                         <Wrapper>
                             <Title>STRENGTHEN THE COMMUNITY<br></br> WITH US</Title>
@@ -272,6 +282,7 @@ const NewTag = () => {
                 </Bottom>
         </Container>
 
+        {/* Spinner loader when sending request not finished */}
         {
             loading ? <div>
                         <CircularProgress style={{"width":"7em","height":"7em", "position":"absolute", "top": "50vh", "left":"43vw","opacity":"100%"}} color="inherit"/>
