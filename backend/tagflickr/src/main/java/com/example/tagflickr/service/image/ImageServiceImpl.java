@@ -14,17 +14,26 @@ public class ImageServiceImpl implements ImageService {
     ImageRepository imageRepository;
 
 
+    /**
+     * Create an image entity
+     */
     @Override
     public void addImage(Image image) {
         // save the image
         imageRepository.save(image);
     }
 
+    /**
+     * Get all image entities
+     */
     @Override
     public List<Image> getAll() {
         return imageRepository.findAll();
     }
 
+    /**
+     * Delete all image entities
+     */
     @Override
     public void deleteAllImages() {
         imageRepository.deleteAll();

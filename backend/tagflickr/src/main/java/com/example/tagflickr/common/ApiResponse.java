@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * API response used to indicate the status of each request from the front end
+ */
 @Data
 public class ApiResponse {
     private final boolean success;

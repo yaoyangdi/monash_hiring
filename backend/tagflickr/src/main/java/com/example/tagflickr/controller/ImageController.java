@@ -36,8 +36,11 @@ public class ImageController {
     @Autowired
     TagService tagService;
 
+    /**
+     * Get all images
+     */
     @GetMapping
-    public List<Image> allProducts(){
+    public List<Image> allImages(){
         return imageService.getAll();
     }
 
@@ -71,6 +74,9 @@ public class ImageController {
         return new ResponseEntity<>(new ApiResponse(true,tagService.getImagesByTagName(imageDto.getTags()) ), HttpStatus.CREATED);
     }
 
+    /**
+     * Delete all images
+     */
     @DeleteMapping
     public ResponseEntity<ApiResponse> deleteAll() {
         try{
@@ -81,6 +87,9 @@ public class ImageController {
         return new ResponseEntity<>(new ApiResponse(true, "Delete successfully"), HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Convert Multipart data(Image file) to File data
+     */
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convFile);

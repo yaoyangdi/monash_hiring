@@ -13,28 +13,38 @@ public class TagServiceImpl implements TagService{
     @Autowired
     TagRepository tagRepository;
 
+    /**
+     * Create a tag entity
+     */
     @Override
     public void addTag(String name, Image image) {
         Tag tag = tagRepository.findByName(name);
+        // Check if there already exist the tag  (tag name in db is unique)
         if(Objects.isNull((tag))){
-            // save the tag only there not yet existing in db
+            // save the tag only if the tag is not yet existing in db
             Tag new_tag = new Tag(name, image);
             tagRepository.save(new_tag);
         } else {
-            tag.addImage(image); // already exist then adding the image with the tag
+            tag.addImage(image); // already exist then update the image list in the tag entity
             tagRepository.save(tag);
         }
     }
 
+    /**
+     * Get all tags
+     */
     @Override
     public List<Tag> getAll() {
         return tagRepository.findAll();
     }
 
+    /**
+     * Get all selected images by the input tag name(s)
+     */
     @Override
     public Set<Image> getImagesByTagName(String name) {
         Set<Image> images = new HashSet<>(); // use set for adding distinct images
-        if (name.contains(",")) {
+        if (name.contains(",")) {           // Split the input tag names in list format only if the input contains comma character
             List<String> tags = Arrays.asList(name.split(","));
             for(int i = 0; i<tags.size(); i++) {
                 Tag tag = tagRepository.findByName(tags.get(i));
@@ -45,7 +55,7 @@ public class TagServiceImpl implements TagService{
                     }
                 }
             }
-        } else {
+        } else {   // Otherwise we do not need to convert to list format
             Tag tag = tagRepository.findByName(name);
             if(Objects.nonNull((tag))){
                 Object[] toArray = tag.getImages().toArray();
@@ -55,10 +65,12 @@ public class TagServiceImpl implements TagService{
             }
         }
 
-
         return images;
     }
 
+    /**
+     * Delete all tags
+     */
     @Override
     public void deleteAllTags() {
         tagRepository.deleteAll();

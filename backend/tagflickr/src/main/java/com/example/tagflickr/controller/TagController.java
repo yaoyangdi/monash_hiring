@@ -19,16 +19,25 @@ public class TagController {
     @Autowired
     TagService tagService;
 
+    /**
+     * Get all tags
+     */
     @GetMapping
     public List<Tag> allTags(){
         return tagService.getAll();
     }
 
+    /**
+     * Get list of distinct images by tags
+     */
     @GetMapping("/getImagesByTag")
     public Set<Image> getImageByTagName(@RequestParam("name") String name){
         return tagService.getImagesByTagName(name);
     }
 
+    /**
+     * Delete all tags
+     */
     @DeleteMapping
     public ResponseEntity<ApiResponse> deleteAll() {
         try{
