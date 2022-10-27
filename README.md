@@ -4,10 +4,10 @@ A side full-stack project that displays images matched by tags. Visit it via htt
 
 ### User Guide
 
-- By pressing the Enter key, the user will generate a tag (repeated tag names are not allowed), then click the search icon to display results (Images matched by tags). 
-
-- If the user wants to return to the home page, click Logo "Tag Flickr" to achieve.
-- If a user searches for a tag without an associated image, the user can contribute via the link at the bottom of the page.
+- By pressing the Enter key, you can generate a tag (repeated tag names are not allowed), then click the search icon to display results (Images matched by tags). 
+- Don't know on what to search? No worries! Click the tag you are interested in and it will pop up onto the search box.
+- Want to return to the home page? Click Logo "Tag Flickr" to achieve.
+- Search for tags but no any associated image? Looking forward to your contribution! (via the link at the bottom of the page)
 
 ### Tech Stack
 
