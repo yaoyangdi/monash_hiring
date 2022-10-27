@@ -30,11 +30,17 @@ Tag creating: https://dribbble.com/shots/5026316-We-improved-tagging
 
 
 
-✅ Backend:	  Upload images with tags API endpoint - POST /imgs
 
-✅ Backend:	  query all images API endpoint - GET /imgs
 
-✅ Backend:	  query images by tag API endpoint - GET /imgs/:tagName
+✅ Backend:	  Upload images with tags API endpoint - POST /img
+
+✅ Backend:	  Query all images API endpoint - GET /img
+
+✅ Backend:	  Query all tags API endpoint - GET /tag
+
+✅ Backend:	  Query images by tag API endpoint - GET /tag/getImagesByTag?name={tagName(s)}
+
+🔲 Backend: 	 Server deployment
 
 🔲 API Handling on Frontend
 
