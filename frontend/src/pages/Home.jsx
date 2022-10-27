@@ -5,6 +5,7 @@ import Search from '../components/Search'
 import { useState } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
 import {GETIMAGE_API} from "../asset/API_Endpoints";
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
     width: 900px;
@@ -40,6 +41,7 @@ const Title = styled.div`
     font-family: 'Space Grotesk', sans-serif;
     font-family: 'Space Mono', monospace;
     transition: all 0.5s ease-out;
+    cursor: pointer;
 `
 
 const Error = styled.span`
@@ -124,7 +126,7 @@ const ImageWall = styled.div`
 `;
 
 const Image = styled.img`
-    height: 250px;
+    height: 290px;
     margin-right: 5px;
     margin-bottom: 5px;
 `;
@@ -216,13 +218,17 @@ const Home = () => {
 
   }
 
-
+  // use for refreshing page when clicking on title
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  
   return (
     <>
       <Container>
         <Top>
           <Wrapper height={search?"40vh":"100vh"}>
-              <Title>Tag Flickr</Title>
+              <Title onClick={()=>refreshPage()}>Tag Flickr</Title>
               <Search onSearch={handleSearch} tags={tags} setTags={setTags}/>
               <Error>{error}</Error>
               <Recommend  display={search? "none": "inline-flex"}>No idea? 
