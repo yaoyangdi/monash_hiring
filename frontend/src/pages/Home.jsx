@@ -91,7 +91,7 @@ const Tags = styled.ul`
 `;
 
 const Tag = styled.li`
-    width: auto;
+    width: fit-content;
     height: 30px;
     display: flex;
     align-items: center;
@@ -129,6 +129,15 @@ const Image = styled.img`
     margin-bottom: 5px;
 `;
 
+const Recommend = styled.div`
+    display: ${props=>props.display};
+    font-size: 17px;
+    height: 10vh;
+    width: 80%;
+    margin-top: 5vh; 
+    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Mono', monospace;
+`;
 
 const Home = () => {
 
@@ -149,7 +158,7 @@ const Home = () => {
     const handleSearch = ()=> {
       if(tags.length !== 0){
         SetError(null);
-        setSearch(true)
+        setSearch(true);
         setSearchedTags(tags);
         
         // Fetch data from backend
@@ -187,6 +196,26 @@ const Home = () => {
     });
     }
 
+  // Function used when user click on the recommended tags
+  const handleClick = (txt) => {
+    // Function to check if the tag already exists in the search bar
+    const isDuplicated = (arr, ele) => {
+      let duplicated = false;
+      arr.forEach((i)=>{
+        if (ele === i) {
+          duplicated= true;
+        }
+      })
+      return duplicated;
+    }
+
+    if (!isDuplicated(tags, txt)) {
+      setTags([...tags, txt])
+    }
+
+
+  }
+
 
   return (
     <>
@@ -196,6 +225,14 @@ const Home = () => {
               <Title>Tag Flickr</Title>
               <Search onSearch={handleSearch} tags={tags} setTags={setTags}/>
               <Error>{error}</Error>
+              <Recommend  display={search? "none": "inline-flex"}>No idea? 
+                <Tag style={{"marginLeft":"20px", "marginRight":"-10px","marginTop":"-3px","cursor": "pointer"}} onClick={()=>handleClick("monash university")}>
+                    <TagTitle>monash university</TagTitle>
+                </Tag>
+                <Tag style={{"marginLeft":"20px","marginRight":"-1px", "marginTop":"-3px","cursor": "pointer"}} onClick={()=>handleClick("sea")}>
+                    <TagTitle>sea</TagTitle>
+                </Tag>
+              </Recommend>
           </Wrapper>
         </Top>
         <Bottom display={search?"initial":"none"}>
@@ -222,12 +259,7 @@ const Home = () => {
                                               )
                                             })
               }
-              {/* <Image src='http://res.cloudinary.com/daa5eazth/image/upload/v1666848298/tmkyq2fffntj6xo1ywce.jpg'></Image>
-              <Image src='http://res.cloudinary.com/daa5eazth/image/upload/v1666848227/azdejip9vtkzks9mhlui.jpg'></Image>
-              <Image src='http://res.cloudinary.com/daa5eazth/image/upload/v1666848374/hbk09r22mmllnxvnw5wn.jpg'></Image>
-              <Image src='http://res.cloudinary.com/daa5eazth/image/upload/v1666848421/kgdlynzvwcrrux70dcx0.jpg'></Image> */}
 
-              
             </ImageWall>
             
           </BottomWrapper>
