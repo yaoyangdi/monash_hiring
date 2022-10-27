@@ -26,11 +26,9 @@ Tag creating: https://dribbble.com/shots/5026316-We-improved-tagging
 
 ✅ Frontend:	 Result display page
 
-✅ Frontend:	 Deployment of frontend server
+✅ Frontend:	 Deployment of frontend server  
 
-
-
-
+<br>
 
 ✅ Backend:	  Upload images with tags API endpoint - POST /img
 
@@ -43,11 +41,3 @@ Tag creating: https://dribbble.com/shots/5026316-We-improved-tagging
 🔲 Backend: 	 Server deployment
 
 🔲 API Handling on Frontend
-
-{
-
-​	url: "",
-
-​	tags: []
-
-}
