@@ -48,6 +48,7 @@ const Error = styled.span`
     font-family: 'Space Grotesk', sans-serif;
     font-family: 'Space Mono', monospace;
     margin-top: 40px;
+    padding-bottom: 20px;
     font-size: 18px;
 `;
 
@@ -222,12 +223,12 @@ const Home = () => {
   function refreshPage() {
     window.location.reload(false);
   }
-  
+
   return (
     <>
       <Container>
         <Top>
-          <Wrapper height={search?"40vh":"100vh"}>
+          <Wrapper height={search?"50vh":"100vh"}>
               <Title onClick={()=>refreshPage()}>Tag Flickr</Title>
               <Search onSearch={handleSearch} tags={tags} setTags={setTags}/>
               <Error>{error}</Error>
@@ -235,8 +236,11 @@ const Home = () => {
                 <Tag style={{"marginLeft":"20px", "marginRight":"-10px","marginTop":"-3px","cursor": "pointer"}} onClick={()=>handleClick("monash university")}>
                     <TagTitle>monash university</TagTitle>
                 </Tag>
-                <Tag style={{"marginLeft":"20px","marginRight":"-1px", "marginTop":"-3px","cursor": "pointer"}} onClick={()=>handleClick("sea")}>
+                <Tag style={{"marginLeft":"20px","marginRight":"-10px", "marginTop":"-3px","cursor": "pointer"}} onClick={()=>handleClick("sea")}>
                     <TagTitle>sea</TagTitle>
+                </Tag>
+                <Tag style={{"marginLeft":"20px","marginRight":"-10px", "marginTop":"-3px","cursor": "pointer"}} onClick={()=>handleClick("shark")}>
+                    <TagTitle>shark</TagTitle>
                 </Tag>
               </Recommend>
           </Wrapper>
