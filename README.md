@@ -1,8 +1,13 @@
 # Tag Flickr
 
+### User Guide
 
+- By pressing the Enter key, the user will generate a tag (repeated tag names are not allowed), then click the search icon to display results (Images matched by tags). 
 
-### Outcome
+- If the user wants to return to the home page, click Logo "Tag Flickr" to achieve.
+- If a user searches for a tag without an associated image, the user can contribute via the link at the bottom of the page.
+
+### Tech Stack
 
 - A side full-stack project that displays images matched by tags.
 - React as the frontend framework.
@@ -33,7 +38,7 @@
 
 ✅ Backend:	  Query images by tag API endpoint - GET /tag/getImagesByTag?name={tagName(s)}
 
-✅ Backend:    Server deployment: https://tagflickr.herokuapp.com/
+✅ Backend:    Server deployment: (API documentation: https://tagflickr.herokuapp.com/swagger-ui/ )
 
 <br>
 
