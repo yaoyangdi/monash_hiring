@@ -7,6 +7,7 @@ import com.example.tagflickr.common.CloudinarySingleton;
 import com.example.tagflickr.dto.ImageDto;
 import com.example.tagflickr.model.Image;
 import com.example.tagflickr.model.Tag;
+import com.example.tagflickr.repository.ImageRepository;
 import com.example.tagflickr.service.image.ImageService;
 import com.example.tagflickr.service.tag.TagService;
 import org.cloudinary.json.JSONObject;
@@ -35,6 +36,11 @@ public class ImageController {
     @Autowired
     TagService tagService;
 
+    @GetMapping
+    public List<Image> allProducts(){
+        return imageService.getAll();
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponse> newImg(ImageDto imageDto) {
         try {
@@ -47,12 +53,13 @@ public class ImageController {
                 String imag_url = new JSONObject(uploadResult).getString("url");
                 image = new Image(imageDto.getTitle(), imag_url);
                 imageService.addImage(image);
-
-
-                ArrayList<String> tagsArr = new ArrayList<String>(Arrays.asList(imageDto.getTags().split(",")));
-                for(int i =1; i<tagsArr.size(); i++) {
-                    Tag tag = new Tag(tagsArr.get(i), image);
-                    tagService.addTag(tag);
+                if(imageDto.getTags().contains(",")){
+                    ArrayList<String> tagsArr = new ArrayList<String>(Arrays.asList(imageDto.getTags().split(",")));
+                    for(int i =1; i<tagsArr.size(); i++) {
+                        tagService.addTag(tagsArr.get(i), image);
+                    }
+                } else{
+                    tagService.addTag(imageDto.getTags(), image);
                 }
 
             } else {
@@ -61,7 +68,7 @@ public class ImageController {
         } catch (Exception e) {
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new ApiResponse(true, "Image added"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ApiResponse(true,tagService.getImagesByTagName(imageDto.getTags()) ), HttpStatus.CREATED);
     }
 
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
