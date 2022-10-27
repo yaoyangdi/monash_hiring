@@ -1,5 +1,7 @@
 # Tag Flickr
 
+A side full-stack project that displays images matched by tags. Visit it via https://tagflickr.netlify.app/
+
 ### User Guide
 
 - By pressing the Enter key, the user will generate a tag (repeated tag names are not allowed), then click the search icon to display results (Images matched by tags). 
@@ -9,10 +11,12 @@
 
 ### Tech Stack
 
-- A side full-stack project that displays images matched by tags.
 - React as the frontend framework.
+
 - Spring boot as the backend framework.
+
   - Integrate Spring Boot with Hibernate for database connecting and mapping.
+  
   - Utilize Cloudinary for image uploading and storing.
 
 
