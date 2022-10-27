@@ -6,6 +6,7 @@ const Container = styled.div`
     width: 100vw;
     background: white;
     display: flex;
+    margin-top: 20px;
     align-items: center;
     justify-content: center;
     font-family: 'Space Grotesk', sans-serif;

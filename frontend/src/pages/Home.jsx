@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import Search from '../components/Search'
 import { useState } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
-
+import {GETIMAGE_API} from "../asset/API_Endpoints";
 
 const Container = styled.div`
     width: 900px;
@@ -74,6 +74,15 @@ const BottomTitle = styled.div`
     transition: all 0.5s ease-out;
 `;
 
+const BottomText = styled.div`
+    margin-left: 300px;
+    margin-top: 15vh;
+    font-size: 18px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Mono', monospace;
+    transition: all 0.5s ease-out;
+`;
+
 const Tags = styled.ul`
     display: flex;
     flex-wrap: wrap;
@@ -108,20 +117,20 @@ const ImageWall = styled.div`
     margin-top: 20px;
     padding: 0 10px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: start;
+    justify-content: start;
 `;
 
 const Image = styled.img`
-    width: 100%;
-    height: 100%;
+    height: 250px;
+    margin-right: 5px;
+    margin-bottom: 5px;
 `;
 
 
 const Home = () => {
-    /* Constant data */
-    const GETIMAGE_API = "";
-
 
     /* React Hooks */
     const [search, setSearch] = useState(false);
@@ -134,6 +143,7 @@ const Home = () => {
   
     const [imgURL, setImgURL] = useState([]); // list of url of images matched by tags
 
+    const [loading, setLoading] = useState(false);
 
     /* Function for fetching data and implementing search action */
     const handleSearch = ()=> {
@@ -150,19 +160,31 @@ const Home = () => {
       }
     }
 
-
-
+    let tags_string = "";
+    tags.forEach((element,index)=>{
+      if(index!==tags.length-1){
+        tags_string+=element + ",";
+      } else{
+        tags_string += element;
+      }
+    })
     const fetchData =  () => 
-    { 
-      fetch(GETIMAGE_API)
+    {
+      console.log(GETIMAGE_API+"?name="+tags_string);
+      setLoading(true);
+      fetch(GETIMAGE_API+"?name="+tags_string)
       .then(response => response.json())
       .then(data => {
         const result = []
-        data.message.forEach((item)=> {
+        data.forEach((item)=> {
           result.push(item);
         })
         setImgURL(result);
-      });
+      })
+      .finally(() => {
+        setLoading(false);
+        console.log(imgURL)
+    });
     }
 
 
@@ -191,14 +213,21 @@ const Home = () => {
             </Tags>
             <ImageWall>
               {
-                imgURL.length === 0 ? <CircularProgress color="inherit"/>
-                                    : imgURL.map((ele, i) => {
-                                      <Image src={ele.url}></Image>
-                                    })
+                loading ?  <CircularProgress style={{"marginLeft":"390px","marginTop": "15vh"}} color="inherit"/>
+                        :  
+                        imgURL.length === 0 ?<BottomText>Sorry no data yet : (</BottomText>
+                                            : imgURL.map((ele, i) => {
+                                              return(
+                                                <Image key={i} src={ele.url}></Image>
+                                              )
+                                            })
               }
+              {/* <Image src='http://res.cloudinary.com/daa5eazth/image/upload/v1666848298/tmkyq2fffntj6xo1ywce.jpg'></Image>
+              <Image src='http://res.cloudinary.com/daa5eazth/image/upload/v1666848227/azdejip9vtkzks9mhlui.jpg'></Image>
+              <Image src='http://res.cloudinary.com/daa5eazth/image/upload/v1666848374/hbk09r22mmllnxvnw5wn.jpg'></Image>
+              <Image src='http://res.cloudinary.com/daa5eazth/image/upload/v1666848421/kgdlynzvwcrrux70dcx0.jpg'></Image> */}
+
               
-
-
             </ImageWall>
             
           </BottomWrapper>

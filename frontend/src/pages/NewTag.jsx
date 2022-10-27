@@ -6,20 +6,22 @@ import FormTagInput from '../components/FormTagInput';
 
 import { useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-
+import {ADDIAMGE_API} from "../asset/API_Endpoints";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Container = styled.div`
     width: 100vw;
     height: 780px;
     display: flex;
     flex-direction: column;
+    opacity: ${props => props.opacity};
 `;
 
 const Top = styled.div`
     flex: 1;
     margin-top: 20px;
 
-    width: 100vw;
+    width: 90vw;
     height: 1vh;
 `;
 
@@ -42,18 +44,20 @@ const Bottom = styled.div`
     width: 100vw;
     height: 850px;
     background: white;
+
 `;
 
 const Left = styled.div`
-    flex: 2;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: start;
+    margin-left: 5vw;
 
 `;
 
 const ImageContainer = styled.div`
-    width: 670px;
+    width: 650px;
     height: fit-content;
     max-height: 700px;
     margin-left: 20px;
@@ -62,6 +66,7 @@ const ImageContainer = styled.div`
 
 const Right = styled.div`
     flex: 1;
+    display: flex;
     margin-top: -60px;
     font-family: 'Space Grotesk', sans-serif;
     font-family: 'Space Mono', monospace;
@@ -93,7 +98,7 @@ const Button = styled.button`
     cursor: pointer;
     font-family: 'Space Grotesk', sans-serif;
     font-family: 'Space Mono', monospace;
-
+    margin-right:50%;
     border: 2px solid black;
 `;
 
@@ -107,18 +112,30 @@ const Sentence = styled.span`
     font-family: 'Space Mono', monospace;
 `;
 
+const FloatText = styled.span`
+    width:100%;
+    height:7em;
+    font-size:27px;
+    position:absolute;
+    top: 35vh;
+    left:13vw;
+    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Mono', monospace;
+    font-weight: bold;
+    transition: all 0.5s ease-out;
+
+`;
 
 const Image = styled.img`
     width: 100%;
 `;
 
 const NewTag = () => {
-    const navigate  = useNavigate();
-
+    
+    /* React Hooks */
     const [tags, setTags] = useState([]); // list of tags shown in input bar
 
-    const TitleRef = useRef();
-    const ImageRef = useRef();
+    const [loading, setLoading] = useState(false);
 
     const [values, setValues] = useState({   // use JSON object instead of using useState hook multiple times
         title: "",
@@ -127,8 +144,14 @@ const NewTag = () => {
     });
 
     const [image, setImage] = useState();
+    
     const [preview, setPreview] = useState();
 
+    const TitleRef = useRef();
+
+    const ImageRef = useRef();
+    
+    const navigate  = useNavigate();
     
     useEffect(()=> {
         if (image) {
@@ -168,8 +191,6 @@ const NewTag = () => {
         }
     }
 
-    const ADDIAMGE_API = "http://localhost:8080/img";
-
     // Handle submit
     const handleSubmit = (e) =>{
 
@@ -182,6 +203,7 @@ const NewTag = () => {
             console.log("YOU CLICKED IT");
 
             try{
+                setLoading(true);
                 fetch(ADDIAMGE_API, {
                     method: "POST",
                     body: data
@@ -190,12 +212,16 @@ const NewTag = () => {
                     response => response.json(),
                 )
                 .then(
-                    res => res.success ? onSuccessSubmit() : null
+                    res => res.success ? onSuccessSubmit() : alert('Sry but try again...')
                 )
+                .finally(() => {
+                    setLoading(false);
+                });
             }
              catch(err) {
                 console.log(err)
             }
+
     
         }
     }
@@ -212,40 +238,49 @@ const NewTag = () => {
     }
 
   return (
-    <Container>
-        <Top>
-            <Back onClick={() => navigate("/")}>
-                <ArrowBackIosNewIcon style={{"fontSize": "19px", "marginRight": "9px"}}/>
-                Back
-            </Back>
-        </Top>
-        <Bottom>
-            <Left>
-                <ImageContainer>
-                    {
-                        preview ? <Image src = {preview}/>
-                              : <Sentence>This is a preview<span style={{"marginLeft": "30px"}}></span>XD</Sentence>
-                    }
-                    
-                </ImageContainer>
-            </Left>
-            <Right>
-                <Wrapper>
-                    <Title>STRENGTHEN THE COMMUNITY<br></br> WITH US</Title>
-                    <Form  onSubmit={handleSubmit}>
-                        <FormInput name="title" type="text" placeholder="Title" label="Title" width="60%" value={values["title"]} onChange={onChange} ref={TitleRef}/>
-                        <FormTagInput name="tags" type="text" placeholder="Press Enter to add tags" label="Tags" width="63%" tags={tags} setTags={setTags}/>
-                        <FormInput name="image" type="file" placeholder="Display Picture" label="Display Picture" width="60%" value={values["image"]} onChange={onChange} style={{"marginLeft":"-10px"}} ref={ImageRef}/>
+    <div>
+            <Container opacity={loading?"10%":"100%"}>
+                <Top>
+                    <Back onClick={() => navigate("/")}>
+                        <ArrowBackIosNewIcon style={{"fontSize": "19px", "marginRight": "9px"}}/>
+                        Back
+                    </Back>
+                </Top>
+                <Bottom>
+                    <Left>
+                        <ImageContainer>
+                            {
+                                preview ? <Image src = {preview}/>
+                                    : <Sentence>This is a preview<span style={{"marginLeft": "30px"}}></span>XD</Sentence>
+                            }
+                            
+                        </ImageContainer>
+                    </Left>
+                    <Right>
+                        <Wrapper>
+                            <Title>STRENGTHEN THE COMMUNITY<br></br> WITH US</Title>
+                            <Form  onSubmit={handleSubmit}>
+                                <FormInput name="title" type="text" placeholder="Title" label="Title" width="60%" value={values["title"]} onChange={onChange} ref={TitleRef}/>
+                                <FormTagInput name="tags" type="text" placeholder="Press Enter to add tags" label="Tags" width="63%" tags={tags} setTags={setTags}/>
+                                <FormInput name="image" type="file" placeholder="Display Picture" label="Display Picture" width="60%" value={values["image"]} onChange={onChange} style={{"marginLeft":"-10px"}} ref={ImageRef}/>
 
-                        <Button style={{"margin-right":"50%"}} type='submit' >{"Shall we?  >>"}</Button>
+                                <Button type='submit' >{"Shall we?  >>"}</Button>
 
-                    </Form>
+                            </Form>
+                        </Wrapper>
+                    </Right>
+                </Bottom>
+        </Container>
 
+        {
+            loading ? <div>
+                        <CircularProgress style={{"width":"7em","height":"7em", "position":"absolute", "top": "50vh", "left":"43vw","opacity":"100%"}} color="inherit"/>
+                        <FloatText >Server need more time to wake up, thank you for being patient ! !</FloatText>
+                      </div>
+                    : null
+        }
+    </div>
 
-                </Wrapper>
-            </Right>
-        </Bottom>
-</Container>
   )
 }
 
