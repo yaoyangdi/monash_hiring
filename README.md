@@ -11,7 +11,7 @@
   - Utilize Cloudinary for image uploading and storing.
 
 
-<br><br>
+<br>
 
 ### TODO -> DONE
 
@@ -39,7 +39,7 @@
 
 ✅ API Handling on Frontend
 
-<br><br>
+<br>
 
 ### UI Reference 
 
@@ -47,7 +47,7 @@ Home page: https://dribbble.com/shots/16941063-Crew-work-Add-tag
 
 Tag creating: https://dribbble.com/shots/5026316-We-improved-tagging
 
-<br><br>
+<br>
 
 ### Future Implementation
 
