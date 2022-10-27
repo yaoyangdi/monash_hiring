@@ -36,7 +36,7 @@ public class Tag {
             inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
-    private List<Image> images = new ArrayList<>();
+    private Set<Image> images = new HashSet<>();
 
     /*  Constructor  */
     public Tag(String name, Image image) {
@@ -47,12 +47,14 @@ public class Tag {
 
     public void addImage(Image image) {
         this.images.add(image);
+        image.addTag(this);
     }
 
     public void removeTag(long imageId) {
         Image image = this.images.stream().filter(i -> i.getImage_id() == imageId).findFirst().orElse(null);
         if (image != null) {
             this.images.remove(image);
+            image.removeTag(this.tag_id);
         }
     }
 }

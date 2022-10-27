@@ -24,4 +24,9 @@ public class ImageServiceImpl implements ImageService {
     public List<Image> getAll() {
         return imageRepository.findAll();
     }
+
+    @Override
+    public void deleteAllImages() {
+        imageRepository.deleteAll();
+    }
 }

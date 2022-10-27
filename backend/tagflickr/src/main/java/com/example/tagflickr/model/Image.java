@@ -35,6 +35,7 @@ public class Image {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             }, mappedBy = "images")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private List<Tag> tags = new ArrayList<>();
 
@@ -43,18 +44,18 @@ public class Image {
         this.title = title;
         this.url = url;
     }
-//
-//    public void addTag(Tag tag) {
-//        this.tags.add(tag);
-//        tag.getImages().add(this);
-//    }
-//
-//    public void removeTag(long tagId) {
-//        Tag tag = this.tags.stream().filter(t -> t.getId() == tagId).findFirst().orElse(null);
-//        if (tag != null) {
-//            this.tags.remove(tag);
-//            tag.getImages().remove(this);
-//        }
-//    }
+
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
+        tag.getImages().add(this);
+    }
+
+    public void removeTag(long tagId) {
+        Tag tag = this.tags.stream().filter(t -> t.getTag_id() == tagId).findFirst().orElse(null);
+        if (tag != null) {
+            this.tags.remove(tag);
+            tag.getImages().remove(this);
+        }
+    }
 
 }

@@ -8,4 +8,6 @@ public interface ImageService {
     void addImage(Image image);
 
     List<Image> getAll();
+
+    void deleteAllImages();
 }

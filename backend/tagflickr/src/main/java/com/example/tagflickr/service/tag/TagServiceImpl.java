@@ -34,17 +34,34 @@ public class TagServiceImpl implements TagService{
     @Override
     public Set<Image> getImagesByTagName(String name) {
         Set<Image> images = new HashSet<>(); // use set for adding distinct images
-        List<String> tags = Arrays.asList(name.split(","));
-
-        for(int i = 0; i<tags.size(); i++) {
+        if (name.contains(",")) {
+            List<String> tags = Arrays.asList(name.split(","));
+            for(int i = 0; i<tags.size(); i++) {
+                Tag tag = tagRepository.findByName(tags.get(i));
+                if(Objects.nonNull((tag))){
+                    Object[] toArray = tag.getImages().toArray();
+                    for(int j=0; j<toArray.length; j++){
+                        images.add((Image) toArray[j]);
+                    }
+                }
+            }
+        } else {
             Tag tag = tagRepository.findByName(name);
             if(Objects.nonNull((tag))){
-                for(int j=0; j<tag.getImages().size(); j++){
-                    images.add(tag.getImages().get(j));
+                Object[] toArray = tag.getImages().toArray();
+                for(int j=0; j<toArray.length; j++){
+                    images.add((Image) toArray[j]);
                 }
             }
         }
+
+
         return images;
+    }
+
+    @Override
+    public void deleteAllTags() {
+        tagRepository.deleteAll();
     }
 
 }

@@ -12,4 +12,6 @@ public interface TagService {
     List<Tag> getAll();
 
     Set<Image> getImagesByTagName(String name);
+
+    void deleteAllTags();
 }

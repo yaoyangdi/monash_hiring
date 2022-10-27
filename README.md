@@ -38,6 +38,6 @@ Tag creating: https://dribbble.com/shots/5026316-We-improved-tagging
 
 ✅ Backend:	  Query images by tag API endpoint - GET /tag/getImagesByTag?name={tagName(s)}
 
-🔲 Backend: 	 Server deployment
+✅ Backend:    Server deployment: https://tagflickr.herokuapp.com/
 
 🔲 API Handling on Frontend

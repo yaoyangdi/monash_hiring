@@ -55,7 +55,7 @@ public class ImageController {
                 imageService.addImage(image);
                 if(imageDto.getTags().contains(",")){
                     ArrayList<String> tagsArr = new ArrayList<String>(Arrays.asList(imageDto.getTags().split(",")));
-                    for(int i =1; i<tagsArr.size(); i++) {
+                    for(int i =0; i<tagsArr.size(); i++) {
                         tagService.addTag(tagsArr.get(i), image);
                     }
                 } else{
@@ -69,6 +69,16 @@ public class ImageController {
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(new ApiResponse(true,tagService.getImagesByTagName(imageDto.getTags()) ), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ApiResponse> deleteAll() {
+        try{
+            imageService.deleteAllImages();
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(new ApiResponse(true, "Delete successfully"), HttpStatus.ACCEPTED);
     }
 
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
