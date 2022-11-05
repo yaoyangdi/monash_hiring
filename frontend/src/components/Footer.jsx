@@ -6,11 +6,18 @@ const Container = styled.div`
     width: 100vw;
     background: white;
     display: flex;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     align-items: center;
     justify-content: center;
     font-family: 'Space Grotesk', sans-serif;
     font-family: 'Space Mono', monospace;
+
+    @media (max-width: 900px) {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
 `;
 
 const Footer = () => {

@@ -16,6 +16,8 @@ const Input = styled.input`
     font-size: 14px;
     height: 15px;
     width: 100%;
+    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Mono', monospace;
     &:focus {
 			outline: none;
 		}

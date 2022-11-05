@@ -13,19 +13,27 @@ import CircularProgress from '@mui/material/CircularProgress';
  * Use styled components to supply a css class
  */
 const Container = styled.div`
-    width: 100vw;
-    height: 780px;
+    width: 100%;
+    height: 100vh;
+    min-height: 710px;
     display: flex;
     flex-direction: column;
     opacity: ${props => props.opacity};
+    // background-color: black;
+
+    @media (max-width: 900px) {
+
+        // height: 100vh;
+        // background-color: black;
+    }
 `;
 
 const Top = styled.div`
     flex: 1;
     margin-top: 20px;
-
-    width: 90vw;
     height: 1vh;
+
+    
 `;
 
 const Back = styled.span`
@@ -36,43 +44,88 @@ const Back = styled.span`
     cursor: pointer;
     font-family: 'Space Grotesk', sans-serif;
     font-family: 'Space Mono', monospace;
+
 `;
 
 const Bottom = styled.div`
+    width:  80%;
     flex: 9;    
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 100vw;
     height: 850px;
-    background: white;
 
+    margin-left: 10%;
+    margin-right: 10%;
+
+
+    // background: white;
+    // background-color: black;
+    @media (max-width: 900px) {
+        flex-wrap: wrap;
+    }
 `;
 
 const Left = styled.div`
-    flex: 1;
-    display: flex;
+    width: 50%;
     justify-content: center;
     align-items: start;
-    margin-left: 5vw;
 
+    @media (max-width: 900px) {
+        // background-color: black;
+        margin-top: 15%;
+        width: 100%;
+    }
 `;
 
+const Image = styled.img`
+    width: 100%;
+`;
+
+
 const ImageContainer = styled.div`
-    width: 650px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 650px;
     height: fit-content;
     max-height: 700px;
-    margin-left: 20px;
+    margin-right: 60px;
     box-shadow:  2px 2px 7px #000000;
+    @media (max-width: 900px) {
+        margin-right: 0px;
+    }
+`;
+
+const Sentence = styled.span`
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Mono', monospace;
+
+    @media (max-width: 900px) {
+        margin-left: 20px;
+        margin-right: 20px;
+        font-size: 25px;
+        height: 300px;
+    }
 `;
 
 const Right = styled.div`
-    flex: 1;
+    width: 50%;
     display: flex;
     margin-top: -60px;
     font-family: 'Space Grotesk', sans-serif;
     font-family: 'Space Mono', monospace;
+
+    @media (max-width: 900px) {
+        margin-left: -5%;
+        width: 100%;
+        margin-top: 0px;
+    }
 `;
 
 const Wrapper = styled.div`
@@ -82,12 +135,21 @@ const Wrapper = styled.div`
 const Form = styled.form`
     display: flex;
     flex-wrap: wrap;
+
+    @media (max-width: 900px) {
+        margin-left: -20px;
+        width: 100vw;
+    }
 `;
 const Title = styled.h1`
     margin-left: 20px;
     font-size: 35px;
     font-weight: 800;
-
+    @media (max-width: 900px) {
+        margin-left: 0px;
+        width: 100%;
+        font-size: 29px;
+    }
 `;
 
 const Button = styled.button`
@@ -105,16 +167,6 @@ const Button = styled.button`
     border: 2px solid black;
 `;
 
-const Sentence = styled.span`
-    height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-family: 'Space Mono', monospace;
-`;
-
 const FloatText = styled.span`
     width:100%;
     height:7em;
@@ -127,11 +179,22 @@ const FloatText = styled.span`
     font-weight: bold;
     transition: all 0.5s ease-out;
 
+    @media (max-width: 900px) {
+        width: 80%;
+        top: 30vh;
+        left:13vw;
+        font-size: 20px;
+    }
 `;
 
-const Image = styled.img`
-    width: 100%;
+const Loader = styled.div`
+    position: absolute;
+    top: 48vh;
+    left:48vw;
+    opacity:100%;
+    
 `;
+
 
 const NewTag = () => {
     
@@ -259,7 +322,7 @@ const NewTag = () => {
                         <ImageContainer>
                             {
                                 preview ? <Image src = {preview}/>
-                                    : <Sentence>This is a preview<span style={{"marginLeft": "30px"}}></span>XD</Sentence>
+                                    : <Sentence>This is a preview XD</Sentence>
                             }
                             
                         </ImageContainer>
@@ -285,7 +348,9 @@ const NewTag = () => {
         {/* Spinner loader when sending request not finished */}
         {
             loading ? <div>
-                        <CircularProgress style={{"width":"7em","height":"7em", "position":"absolute", "top": "50vh", "left":"43vw","opacity":"100%"}} color="inherit"/>
+                            <Loader>
+                              <CircularProgress color="inherit"/>
+                            </Loader>
                         <FloatText >Server need more time to wake up, thank you for being patient ! !</FloatText>
                       </div>
                     : null

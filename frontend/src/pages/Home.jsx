@@ -12,11 +12,18 @@ import {GETIMAGE_API} from "../asset/API_Endpoints";
 const Container = styled.div`
     width: 900px;
     background-color: #ffffff;
+    min-height: 92vh;
     margin: auto;
     display:flex;
     flex-direction: column;
     align-content: center;
     justify-items: center;
+    
+    @media (max-width: 900px) {
+      width: 100%;
+      min-height: 98vh;
+      // background-color: black;
+    }
 `;
 
 const Top = styled.div`
@@ -24,7 +31,7 @@ const Top = styled.div`
 `;
 
 const Wrapper = styled.div`
-    margin-top: -50px;
+    margin-top: -2%;
     width: 900px;
     height: ${props => props.height};
     display: flex;
@@ -33,6 +40,13 @@ const Wrapper = styled.div`
     justify-content: center;
     transition: all 0.5s ease;
     // background-color: black;
+
+    @media (max-width: 900px) {
+      width: 100%;
+      height:  ${props => props.mobileHeight};
+      margin-top: ${props => props.top};
+      // background-color: black;
+    }
 `;
 
 const Title = styled.div`
@@ -42,6 +56,10 @@ const Title = styled.div`
     font-family: 'Space Mono', monospace;
     transition: all 0.5s ease-out;
     cursor: pointer;
+
+    @media (max-width: 900px) {
+      font-size: 45px;
+    }
 `
 
 const Error = styled.span`
@@ -50,6 +68,12 @@ const Error = styled.span`
     margin-top: 40px;
     padding-bottom: 20px;
     font-size: 18px;
+    display: ${props=>props.display};
+
+
+    @media (max-width: 900px) {
+      font-size: 14px;
+    }
 `;
 
 
@@ -59,7 +83,8 @@ const Bottom = styled.div`
 `;
 
 const BottomWrapper = styled.div`
-    width: 900px;
+    margin-top:-3%;
+    width: 100%;
     height: fit-content;
     min-height: 60vh;
     display: flex;
@@ -67,24 +92,88 @@ const BottomWrapper = styled.div`
     align-content: start;
     justify-content: start;
     transition: all 0.5s ease;
+    margin-left: 10%;
+    margin-right: 10%;
+    @media (max-width: 900px) {
+      margin-top:-1%;
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+
+    @media (max-width: 500px) {
+      margin-top:-8%;
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+
 `;
 
 const BottomTitle = styled.div`
     font-size: 25px;
-    margin-left: 90px;
     font-family: 'Space Grotesk', sans-serif;
     font-family: 'Space Mono', monospace;
     transition: all 0.5s ease-out;
+
+    @media (max-width: 900px) {
+      font-size: 18px;
+    }
 `;
 
 const BottomText = styled.div`
-    margin-left: 300px;
+    margin-left: 25%;
     margin-top: 15vh;
     font-size: 18px;
     font-family: 'Space Grotesk', sans-serif;
     font-family: 'Space Mono', monospace;
     transition: all 0.5s ease-out;
+
+    @media (max-width: 900px) {
+      margin-left: 20%;
+      font-size: 14px;
+    }
 `;
+
+const ImageWall = styled.div`
+    width: 100%;
+    height: fit-content;
+    min-height: 20vh;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: start;
+    justify-content: start;
+`;
+
+const Image = styled.img`
+    max-height: 280px;
+    max-width: 100%;
+    margin-right: 5px;
+    margin-bottom: 5px;
+
+    @media (max-width: 900px) {
+      max-height: 140px;
+    }
+`;
+
+const Recommend = styled.div`
+    display: ${props=>props.display};
+    // background-color: black;
+    flex-wrap: wrap;
+    align-content: center;
+    font-size: 17px;
+    height: 10vh;
+    width: 80%;
+    margin-top: 2vh; 
+    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Mono', monospace;
+
+    @media (max-width: 900px) {
+      font-size: 14px;
+      margin-left: -9%;
+    }
+`;
+
 
 const Tags = styled.ul`
     display: flex;
@@ -104,8 +193,14 @@ const Tag = styled.li`
     font-size: 14px;
     list-style: none;
     border-radius: 6px;
-    margin: 0 4px 8px 4px;
     background: #0052cc;
+    margin: -2px 4px 10px 2px;
+    cursor: pointer;
+
+    @media (max-width: 900px) {
+      height: 23px;
+      font-size: 12px;
+    }
 `;
 
 const TagTitle = styled.span`
@@ -113,33 +208,9 @@ const TagTitle = styled.span`
     font-family: 'Space Mono', monospace;
 `;
 
-const ImageWall = styled.div`
-    width: 100%;
-    height: fit-content;
-    min-height: 20vh;
-    margin-top: 20px;
-    padding: 0 10px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: start;
-    justify-content: start;
-`;
-
-const Image = styled.img`
-    height: 290px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-`;
-
-const Recommend = styled.div`
-    display: ${props=>props.display};
-    font-size: 17px;
-    height: 10vh;
-    width: 80%;
-    margin-top: 5vh; 
-    font-family: 'Space Grotesk', sans-serif;
-    font-family: 'Space Mono', monospace;
+const Loader = styled.div`
+    margin-left:35%;
+    margin-top: 15%;
 `;
 
 const Home = () => {
@@ -157,12 +228,14 @@ const Home = () => {
 
     const [loading, setLoading] = useState(false);  // used to track when the data has been fetched
 
+    const [emptyError, setEmptyError] = useState(false); // used when search with empty error
     /**
      * Functions
     */
     /* Function for fetching data and implementing search action */
     const handleSearch = ()=> {
       if(tags.length !== 0){
+        setEmptyError(false); 
         SetError(null);
         setSearch(true);
         setSearchedTags(tags);
@@ -171,6 +244,7 @@ const Home = () => {
         fetchData();
 
       } else{
+        setEmptyError(true); 
         SetError("Try adding some tags pls...... P3P")
       }
     }
@@ -220,8 +294,6 @@ const Home = () => {
     if (!isDuplicated(tags, txt)) {
       setTags([...tags, txt])
     }
-
-
   }
 
   /* Function used for refreshing page when users clicking on title */
@@ -234,18 +306,18 @@ const Home = () => {
       <Container>
         {/* Top part */}
         <Top>
-          <Wrapper height={search?"50vh":"100vh"}>
+          <Wrapper height={search?"50vh":"100vh"} mobileHeight={search?"30vh":"100vh"} top={search?"-5%":"0%"}>
               <Title onClick={()=>refreshPage()}>Tag Flickr</Title>
               <Search onSearch={handleSearch} tags={tags} setTags={setTags}/>
-              <Error>{error}</Error>
-              <Recommend  display={search? "none": "inline-flex"}>No idea? 
-                <Tag style={{"marginLeft":"20px", "marginRight":"-10px","marginTop":"-3px","cursor": "pointer"}} onClick={()=>handleClick("monash university")}>
+              <Error display={emptyError ? "inline-flex": "none"}>{error}</Error>
+              <Recommend  display={search? "none": "inline-flex"}>No idea? Try <span style={{"width":"10px"}}>  </span>
+                <Tag onClick={()=>handleClick("monash university")}>
                     <TagTitle>monash university</TagTitle>
                 </Tag>
-                <Tag style={{"marginLeft":"20px","marginRight":"-10px", "marginTop":"-3px","cursor": "pointer"}} onClick={()=>handleClick("sea")}>
+                <Tag  onClick={()=>handleClick("sea")}>
                     <TagTitle>sea</TagTitle>
                 </Tag>
-                <Tag style={{"marginLeft":"20px","marginRight":"-10px", "marginTop":"-3px","cursor": "pointer"}} onClick={()=>handleClick("shark")}>
+                <Tag  onClick={()=>handleClick("shark")}>
                     <TagTitle>shark</TagTitle>
                 </Tag>
               </Recommend>
@@ -261,7 +333,7 @@ const Home = () => {
             <Tags>
               {
                 searchedTags.map((tag, index) => (
-                  <Tag key={index}>
+                  <Tag style={{cursor:"auto"}} key={index}>
                     <TagTitle>{tag}</TagTitle>
                   </Tag>
                 ))
@@ -271,7 +343,9 @@ const Home = () => {
             {/* Display image selected / Display NA annotation if no any image shown */}
             <ImageWall>
               {
-                loading ?  <CircularProgress style={{"marginLeft":"390px","marginTop": "15vh"}} color="inherit"/>
+                loading ? <Loader>
+                            <CircularProgress color="inherit"/>
+                          </Loader> 
                         :  
                         imgURL.length === 0 ?<BottomText>Sorry no data yet : (</BottomText>
                                             : imgURL.map((ele, i) => {

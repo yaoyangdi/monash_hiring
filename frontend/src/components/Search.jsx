@@ -5,13 +5,17 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 const SearchContainer = styled.div`
-    min-width: 80%;
+    width: 80%;
     border: 0.5px solid lightgray;
     border-radius: 5px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     height: fit-content;
+
+    @media (max-width: 900px) {
+      width: 90%;
+    }
 `;
 
 const Warning = styled.span`
@@ -39,6 +43,11 @@ const Tag = styled.li`
     border-radius: 6px;
     margin: 0 4px 8px 4px;
     background: #0052cc;
+
+    @media (max-width: 900px) {
+      font-size: 12px;
+      height: 25px;
+    }
 `;
 
 const TagTitle = styled.span`
@@ -57,6 +66,10 @@ const Input = styled.input`
 		&:focus {
 			outline: none;
 		}
+
+    @media (max-width: 900px) {
+      font-size: 12px;
+    }
 `;
 
 const Search = (props) => {

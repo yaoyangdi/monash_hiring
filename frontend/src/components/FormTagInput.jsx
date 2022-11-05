@@ -42,8 +42,10 @@ const Input = styled.input`
     padding: 10px;
     font-size: 14px;
     height: 15px;
-    
+    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Mono', monospace;
     width: 100%;
+    
     &:focus {
         outline: none;
     }
