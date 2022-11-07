@@ -1,17 +1,22 @@
-import React from 'react'
+import { React, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import Footer from '../components/Footer';
 import Search from '../components/Search'
 import { useState } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
 import {GETIMAGE_API} from "../asset/API_Endpoints";
+import Modal from '../components/Modal';
 
 /**
  * Use styled components to supply a css class
  */
+const Page = styled.div`
+    background: ${props=>props.background};
+    opacity: ${props=>props.opcity};
+`;
+
 const Container = styled.div`
     width: 900px;
-    background-color: #ffffff;
     min-height: 92vh;
     margin: auto;
     display:flex;
@@ -213,6 +218,12 @@ const Loader = styled.div`
     margin-top: 15%;
 `;
 
+const ImageContainer = styled.div`
+    width: 100vw;
+    position: absolute;
+    top: 0;
+`;
+
 const Home = () => {
 
     /* React Hooks */
@@ -229,6 +240,15 @@ const Home = () => {
     const [loading, setLoading] = useState(false);  // used to track when the data has been fetched
 
     const [emptyError, setEmptyError] = useState(false); // used when search with empty error
+
+    const [imgClicked, setImgClicked] = useState(false); // used when user clicked on an image
+
+    const [imgIndex, setImgIndex] = useState(-1);
+
+    const refer1 = useRef();  // reference for image gallery
+
+    const refer2 = useRef();  // reference for poped image
+
     /**
      * Functions
     */
@@ -296,75 +316,100 @@ const Home = () => {
     }
   }
 
+  /* Function used when user click on images */
+  const onImageClick = (index) => {
+      setImgIndex(index);
+      setImgClicked(true);
+  }
+
   /* Function used for refreshing page when users clicking on title */
   const refreshPage = () => {
     window.location.reload(false);
   }
 
+  /* Handle quiting image preview when clicking */
+  useEffect(()=>{
+    const handleClickOutside = (event) => {
+        if (   (refer1.current && !refer1.current.contains(event.target) )
+            || (refer2.current && !refer2.current.contains(event.target) )
+           ) {
+            setImgClicked(false);
+        }
+    };
+    
+    document.addEventListener("mousedown", handleClickOutside);
+  })
+
   return (
-    <>
-      <Container>
-        {/* Top part */}
-        <Top>
-          <Wrapper height={search?"50vh":"100vh"} mobileHeight={search?"30vh":"100vh"} top={search?"-5%":"0%"}>
-              <Title onClick={()=>refreshPage()}>Tag Flickr</Title>
-              <Search onSearch={handleSearch} tags={tags} setTags={setTags}/>
-              <Error display={emptyError ? "inline-flex": "none"}>{error}</Error>
-              <Recommend  display={search? "none": "inline-flex"}>No idea? Try <span style={{"width":"10px"}}>  </span>
-                <Tag onClick={()=>handleClick("monash university")}>
-                    <TagTitle>monash university</TagTitle>
-                </Tag>
-                <Tag  onClick={()=>handleClick("sea")}>
-                    <TagTitle>sea</TagTitle>
-                </Tag>
-                <Tag  onClick={()=>handleClick("shark")}>
-                    <TagTitle>shark</TagTitle>
-                </Tag>
-              </Recommend>
-          </Wrapper>
-        </Top>
-
-        {/* Bottom part */}
-        <Bottom display={search?"initial":"none"}>
-          <BottomWrapper >
-            <BottomTitle>Result with tags: </BottomTitle>
-
-            {/* Display result of tags selected */}
-            <Tags>
-              {
-                searchedTags.map((tag, index) => (
-                  <Tag style={{cursor:"auto"}} key={index}>
-                    <TagTitle>{tag}</TagTitle>
+  <>
+      <Page background={imgClicked ? "rgba(0, 0, 0, 0.4)" : "initial"} opcity={imgClicked?"20%":"initial"} >
+        <Container>
+          {/* Top part */}
+          <Top>
+            <Wrapper height={search?"50vh":"100vh"} mobileHeight={search?"30vh":"100vh"} top={search?"-5%":"0%"}>
+                <Title onClick={()=>refreshPage()}>Tag Flickr</Title>
+                <Search onSearch={handleSearch} tags={tags} setTags={setTags}/>
+                <Error display={emptyError ? "inline-flex": "none"}>{error}</Error>
+                <Recommend  display={search? "none": "inline-flex"}>No idea? Try <span style={{"width":"10px"}}>  </span>
+                  <Tag onClick={()=>handleClick("monash university")}>
+                      <TagTitle>monash university</TagTitle>
                   </Tag>
-                ))
-              }
-            </Tags>
+                  <Tag  onClick={()=>handleClick("sea")}>
+                      <TagTitle>sea</TagTitle>
+                  </Tag>
+                  <Tag  onClick={()=>handleClick("shark")}>
+                      <TagTitle>shark</TagTitle>
+                  </Tag>
+                </Recommend>
+            </Wrapper>
+          </Top>
 
-            {/* Display image selected / Display NA annotation if no any image shown */}
-            <ImageWall>
-              {
-                loading ? <Loader>
-                            <CircularProgress color="inherit"/>
-                          </Loader> 
-                        :  
-                        imgURL.length === 0 ?<BottomText>Sorry no data yet : (</BottomText>
-                                            : imgURL.map((ele, i) => {
-                                              return(
-                                                <Image key={i} src={ele.url}></Image>
-                                              )
-                                            })
-              }
+          {/* Bottom part */}
+          <Bottom display={search?"initial":"none"}>
+            <BottomWrapper >
+              <BottomTitle>Result with tags: </BottomTitle>
 
-            </ImageWall>
-            
-          </BottomWrapper>
-        </Bottom>
-      </Container>
+              {/* Display result of tags selected */}
+              <Tags>
+                {
+                  searchedTags.map((tag, index) => (
+                    <Tag style={{cursor:"auto"}} key={index}>
+                      <TagTitle>{tag}</TagTitle>
+                    </Tag>
+                  ))
+                }
+              </Tags>
 
-      {/* Footer only shown inside Home page */}
-      <Footer/>   
-    </>
+              {/* Display image selected / Display NA annotation if no any image shown */}
+              <ImageWall>
+                {
+                  loading ? <Loader>
+                              <CircularProgress color="inherit"/>
+                            </Loader> 
+                          :  
+                          imgURL.length === 0 ?<BottomText>Sorry no data yet : (</BottomText>
+                                              : imgURL.map((ele, i) => {
+                                                return(
+                                                  <Image key={i} src={ele.url} onClick={()=>onImageClick(i)} ref={refer1}></Image>
+                                                )
+                                              })
+                }
 
+              </ImageWall>
+              
+            </BottomWrapper>
+          </Bottom>
+        </Container>
+
+        {/* Footer only shown inside Home page */}
+        <Footer/>   
+      </Page>
+      {
+        imgClicked ? <Modal src={imgURL[imgIndex]&&imgURL[imgIndex].url} setImgClicked={setImgClicked} ref={refer2}/>
+                    : null
+      }
+
+  </>
   )
 }
 

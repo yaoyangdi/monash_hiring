@@ -4,10 +4,9 @@ import styled from 'styled-components'
 
 const Container = styled.div`
     width: 100vw;
-    background: white;
     display: flex;
     margin-top: 30px;
-    margin-bottom: 30px;
+    padding-bottom: 30px;
     align-items: center;
     justify-content: center;
     font-family: 'Space Grotesk', sans-serif;
